@@ -252,3 +252,24 @@ one or more of the following:
 The Buildroot [user manual](http://nightly.buildroot.org/manual.html) can be
 very helpful especially if you need to add a package. The various Nerves system
 repositories have examples of many common use cases, so check them out as well.
+
+## Using a Custom Nerves System
+
+If you are building your Nerves-based project on the same maching on which you built the custom system, then you can simply point to it:
+
+```bash
+export NERVES_SYSTEM=/path/to/rpi2_out
+```
+
+Alternately, you can package up the custom system by running `make system` in the output directory and then transferring the resulting `.tar.gz` file to another machine.
+
+You still need the dependency in mix.exs.  If you only made changes to nervesdef_config, then it's probably fine to point at the released version of the system you started with.  However, it may be less confusing to point at the modified version that was actually used to build your custom system, for example:
+
+```elixir
+# mix.exs
+
+def deps do
+  [{:nerves_system_rpi2, git: "https://github.com/yourname/nerves_system_rpi2" branch: "with_mods"}]
+end
+```
+
